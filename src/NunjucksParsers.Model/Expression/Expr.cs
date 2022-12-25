@@ -1,10 +1,10 @@
-﻿namespace NunjucksParsers.Model.Expression;
+﻿using NunjucksParsers.Model.Core;
 
-public abstract class Expr : IEquatable<Expr>
+namespace NunjucksParsers.Model.Expression;
+
+/// <summary>
+/// Represents any kind of expression in the parse tree.
+/// </summary>
+public abstract class Expr : Node
 {
-  public abstract bool Equals(Expr? other);
-
-  public override bool Equals(object? obj) => Equals(obj as Expr);
-
-  public abstract override int GetHashCode();
 }

@@ -10,4 +10,8 @@
     <PackageReference Include="Pidgin" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NunjucksParsers.Model\NunjucksParsers.Model.csproj" />
+  </ItemGroup>
+
 </Project>
