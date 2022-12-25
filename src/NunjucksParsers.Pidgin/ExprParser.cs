@@ -22,4 +22,7 @@ public static class ExprParser
       _string,
       IdentifierParser.Identifier
     );
+
+  public static Expr ParseOrThrow(string input)
+    => Expr.ParseOrThrow(input) as Expr;
 }
