@@ -18,9 +18,11 @@ public static class ExprParser
     .Labelled("string literal");
 
   public static readonly Parser<char, Node> Expr =
-    OneOf<char, Node>(
-      _string,
-      IdentifierParser.Identifier
+    Rec(() =>
+      OneOf<char, Node>(
+        _string,
+        IdentifierParser.Identifier
+      )
     );
 
   public static Expr ParseOrThrow(string input)

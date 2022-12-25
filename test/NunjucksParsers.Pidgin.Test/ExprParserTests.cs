@@ -32,7 +32,7 @@ public class ExprParserTests
       {
         true,
         "myFooVariable",
-        new CodeName("myFooVariable")
+        new IdentifierSegment(new CodeName("myFooVariable"))
       },
     };
 

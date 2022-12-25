@@ -17,35 +17,40 @@ public static class IdentifierParser
     )
     .Labelled("code name");
 
+  private static readonly Parser<char, Node> _identifierSegment =
+    OneOf(
+      // Case of code name with index access [...]
+      Try(
+        Map(
+          (codeName, _, index, _) => new IdentifierSegment(codeName as CodeName, index as Expr) as Node,
+          _codeName,
+          Char('['),
+          ExprParser.Expr,
+          Char(']')
+        )
+      ),
+      // Case of plain code name without index access
+      _codeName.Select(codeName => new IdentifierSegment(codeName as CodeName) as Node)
+    )
+    .Labelled("identifier segment");
+
   private static readonly Parser<char, Node> _propertyAccess =
     Rec(() =>
       Map(
-        (id, _, prop) => new PropertyAccess(id as Identifier, prop as CodeName) as Node,
-        Identifier,
+        (seg, _, id) => new PropertyAccess(seg as IdentifierSegment, id as Identifier) as Node,
+        _identifierSegment,
         Char('.'),
-        _codeName
+        Identifier
       )
     )
     .Labelled("property access");
 
-  private static readonly Parser<char, Node> _indexAccess =
-    Rec(() =>
-      Map(
-        (id, _, index, _) => new IndexAccess(id as Identifier, index as Expr) as Node,
-        Identifier,
-        Char('['),
-        ExprParser.Expr,
-        Char(']')
-      )
-    )
-    .Labelled("index access");
-
   public static readonly Parser<char, Node> Identifier =
     OneOf<char, Node>(
-      Try(_indexAccess),
       Try(_propertyAccess),
-      _codeName
-    );
+      _identifierSegment
+    )
+    .Labelled("identifier");
 
   public static Identifier ParseOrThrow(string input)
     => Identifier.ParseOrThrow(input) as Identifier;
