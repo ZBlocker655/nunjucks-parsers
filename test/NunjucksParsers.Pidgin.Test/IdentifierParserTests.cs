@@ -159,7 +159,6 @@ public class IdentifierParserTests
     }
     else
     {
-      var tree = IdentifierParser.ParseOrThrow(input);
       Assert.Throws<ParseException>(() => IdentifierParser.ParseOrThrow(input));
     }
   }
