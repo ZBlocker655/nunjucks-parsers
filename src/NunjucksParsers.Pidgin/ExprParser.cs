@@ -1,7 +1,5 @@
 ﻿using NunjucksParsers.Model.Core;
 using NunjucksParsers.Model.Expression;
-using NunjucksParsers.Model.Identifier;
-using static NunjucksParsers.Pidgin.CoreHelpers;
 using Pidgin;
 using static Pidgin.Parser;
 
@@ -20,7 +18,7 @@ public static class ExprParser
   public static readonly Parser<char, Node> Expr =
     Rec(() =>
       OneOf<char, Node>(
-        _string,
+        Try(_string),
         IdentifierParser.Identifier
       )
     );
